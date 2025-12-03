@@ -1,0 +1,121 @@
+/* 🎀 ESTILOS PASTEL GENERALES */
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f7f5ff;
+  margin: 0;
+  padding: 0;
+  color: #4a4a4a;
+}
+
+/* 🎀 Contenedores */
+.container {
+  max-width: 700px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* 🎀 Títulos */
+h1, h3 {
+  color: #a678e2;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* 🎀 NAVBAR */
+nav {
+  background: #e5d9fa;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  border-bottom: 2px solid #d1c0f1;
+}
+
+nav a {
+  text-decoration: none;
+  color: #6b4fb2;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+nav a:hover {
+  color: #9a6ceb;
+}
+
+/* 🎀 Botones */
+button {
+  background: #cdb7ff;
+  border: none;
+  padding: 7px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 5px;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #b39df7;
+}
+
+button:disabled {
+  background: #e8dbff;
+  cursor: not-allowed;
+}
+
+/* 🎀 INPUTS */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #e3d7fd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #c4a3f9;
+}
+
+/* 🎀 FORMULARIOS */
+form {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(150, 130, 255, 0.1);
+}
+
+/* 🎀 LISTAS */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: #ffffff;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+  box-shadow: 0px 4px 10px rgba(150, 130, 255, 0.1);
+}
+
+/* 🎀 Filtros */
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* 🎀 Loader */
+.loader {
+  text-align: center;
+  font-size: 18px;
+  color: #a678e2;
+  font-weight: bold;
+}

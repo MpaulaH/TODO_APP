@@ -54,7 +54,7 @@ export default function Todos() {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Lista de Todos</h1>
 
       {/* ⭐ FILTROS PLACEHOLDER */}

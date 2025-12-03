@@ -1,76 +1,66 @@
 import { useState } from "react";
 
 export default function Registro() {
-  const [formData, setFormData] = useState({
-    nombre: "",
-    email: "",
-    password: "",
-  });
-
-  const [mensaje, setMensaje] = useState("");
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
+    const [formData, setFormData] = useState({
+        nombre: "",
+        email: "",
+        password: "",
     });
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    const [mensaje, setMensaje] = useState("");
 
-    if (!formData.nombre || !formData.email || !formData.password) {
-      setMensaje("Todos los campos son obligatorios");
-      return;
-    }
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
 
-    // Solo mostramos los datos por consola (como pide la guía)
-    console.log("Datos del registro:", formData);
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-    setMensaje("Registro enviado correctamente ✔");
-  };
+        if (!formData.nombre || !formData.email || !formData.password) {
+            setMensaje("Todos los campos son obligatorios");
+            return;
+        }
 
-  return (
-    <div>
-      <h1>Registro de usuario</h1>
+        console.log("Datos del registro:", formData);
+        setMensaje("Registro enviado correctamente ✔");
+    };
 
-      <form onSubmit={handleSubmit} style={{ maxWidth: "350px" }}>
-        {/* Nombre */}
-        <label>Nombre</label>
-        <input
-          type="text"
-          name="nombre"
-          placeholder="Tu nombre"
-          value={formData.nombre}
-          onChange={handleChange}
-        />
+    return (
+        <div className="container">
+            <h1>Registro de usuario</h1>
 
-        {/* Email */}
-        <label>Email</label>
-        <input
-          type="email"
-          name="email"
-          placeholder="correo@example.com"
-          value={formData.email}
-          onChange={handleChange}
-        />
+            <form onSubmit={handleSubmit}>
+                <label>Nombre</label>
+                <input
+                    type="text"
+                    name="nombre"
+                    value={formData.nombre}
+                    onChange={handleChange}
+                />
 
-        {/* Contraseña */}
-        <label>Contraseña</label>
-        <input
-          type="password"
-          name="password"
-          placeholder="********"
-          value={formData.password}
-          onChange={handleChange}
-        />
+                <label>Email</label>
+                <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                />
 
-        <button type="submit" style={{ marginTop: "10px" }}>
-          Registrarse
-        </button>
-      </form>
+                <label>Contraseña</label>
+                <input
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                />
 
-      {mensaje && <p style={{ marginTop: "15px" }}>{mensaje}</p>}
-    </div>
-  );
+                <button type="submit">Registrarse</button>
+            </form>
+
+            {mensaje && <p>{mensaje}</p>}
+        </div>
+    );
 }

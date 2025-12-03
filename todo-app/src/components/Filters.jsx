@@ -1,7 +1,6 @@
 export default function Filters() {
   return (
-    <div style={{ marginBottom: "20px" }}>
-      <h3>Filtros</h3>
+    <div className="filters">
       <button disabled>Todos</button>
       <button disabled>Completados</button>
       <button disabled>Pendientes</button>
