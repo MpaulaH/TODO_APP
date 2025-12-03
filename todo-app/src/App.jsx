@@ -6,7 +6,9 @@ import Registro from "./pages/Registro";
 export default function App() {
   return (
     <BrowserRouter>
-      <nav style={{ display: "flex", gap: "20px", marginBottom: "20px" }}>
+
+      {/* ⭐ Barra de navegación */}
+      <nav style={{ padding: "10px", display: "flex", gap: "15px" }}>
         <Link to="/">Inicio</Link>
         <Link to="/todos">Todos</Link>
         <Link to="/registro">Registro</Link>
@@ -17,6 +19,8 @@ export default function App() {
         <Route path="/todos" element={<Todos />} />
         <Route path="/registro" element={<Registro />} />
       </Routes>
+
     </BrowserRouter>
   );
 }
+

@@ -1,36 +1,32 @@
 import { useEffect, useState } from "react";
 import TodoItem from "../components/TodoItem";
 import TodoForm from "../components/TodoForm";
+import { fetchTodos } from "../api/todosApi";
+
 
 export default function Todos() {
   const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(true); // Estado de carga
-  const [error, setError] = useState(null); // 🌟 Nuevo estado de error
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const loadTodos = async () => {
+    const loadData = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        const res = await fetch("https://jsonplaceholder.typicode.com/todos?_limit=10");
-
-        if (!res.ok) {
-          throw new Error("Error al obtener los datos");
-        }
-
-        const data = await res.json();
+        const data = await fetchTodos(10);
         setTodos(data);
 
       } catch (err) {
-        console.error("Error cargando los TODOs:", err);
+        console.error(err);
         setError("Ocurrió un error al cargar las tareas.");
       } finally {
         setLoading(false);
       }
     };
 
-    loadTodos();
+    loadData();
   }, []);
 
   // Crear nuevo todo
@@ -40,11 +36,10 @@ export default function Todos() {
       title,
       completed: false,
     };
-
     setTodos([newTodo, ...todos]);
   };
 
-  // Marcar completado/pendiente
+  // Toggle
   const toggleTodo = (id) => {
     setTodos(
       todos.map((todo) =>
@@ -53,7 +48,7 @@ export default function Todos() {
     );
   };
 
-  // Eliminar todo
+  // Eliminar
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
@@ -64,13 +59,9 @@ export default function Todos() {
 
       <TodoForm onCreate={handleCreate} />
 
-      {/* 🌟 Mostrar error si ocurre */}
       {error && <p style={{ color: "red" }}>{error}</p>}
-
-      {/* 🌟 Mostrar mensaje de carga */}
       {loading && <p>Cargando tareas...</p>}
 
-      {/* 🌟 Mostrar lista solo si NO hay error y NO hay loading */}
       {!loading && !error && (
         <ul>
           {todos.map((todo) => (
