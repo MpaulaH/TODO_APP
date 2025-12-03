@@ -4,21 +4,33 @@ import TodoForm from "../components/TodoForm";
 
 export default function Todos() {
   const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(true); // 🌟 Estado de carga
+  const [loading, setLoading] = useState(true); // Estado de carga
+  const [error, setError] = useState(null); // 🌟 Nuevo estado de error
 
   useEffect(() => {
-    setLoading(true); // activa el estado de carga
+    const loadTodos = async () => {
+      try {
+        setLoading(true);
+        setError(null);
 
-    fetch("https://jsonplaceholder.typicode.com/todos?_limit=10")
-      .then((res) => res.json())
-      .then((data) => {
+        const res = await fetch("https://jsonplaceholder.typicode.com/todos?_limit=10");
+
+        if (!res.ok) {
+          throw new Error("Error al obtener los datos");
+        }
+
+        const data = await res.json();
         setTodos(data);
-        setLoading(false); // desactiva carga cuando llegan los datos
-      })
-      .catch((error) => {
-        console.error("Error cargando los TODOs:", error);
-        setLoading(false); // incluso en error se detiene el loading
-      });
+
+      } catch (err) {
+        console.error("Error cargando los TODOs:", err);
+        setError("Ocurrió un error al cargar las tareas.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTodos();
   }, []);
 
   // Crear nuevo todo
@@ -36,9 +48,7 @@ export default function Todos() {
   const toggleTodo = (id) => {
     setTodos(
       todos.map((todo) =>
-        todo.id === id
-          ? { ...todo, completed: !todo.completed }
-          : todo
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
       )
     );
   };
@@ -54,11 +64,14 @@ export default function Todos() {
 
       <TodoForm onCreate={handleCreate} />
 
-      {/* 🌟 Mensaje mientras se cargan los datos */}
+      {/* 🌟 Mostrar error si ocurre */}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      {/* 🌟 Mostrar mensaje de carga */}
       {loading && <p>Cargando tareas...</p>}
 
-      {/* 🌟 Solo muestra la lista cuando loading es false */}
-      {!loading && (
+      {/* 🌟 Mostrar lista solo si NO hay error y NO hay loading */}
+      {!loading && !error && (
         <ul>
           {todos.map((todo) => (
             <TodoItem
