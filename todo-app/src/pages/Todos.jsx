@@ -22,7 +22,7 @@ export default function Todos() {
     setTodos([newTodo, ...todos]);
   };
 
-  // 👉 Función para marcar completado o pendiente
+  // Marcar completado/pendiente
   const toggleTodo = (id) => {
     setTodos(
       todos.map((todo) =>
@@ -33,6 +33,11 @@ export default function Todos() {
     );
   };
 
+  // 👉 ELIMINAR TODO
+  const deleteTodo = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
   return (
     <div>
       <h1>Lista de Todos</h1>
@@ -41,7 +46,12 @@ export default function Todos() {
 
       <ul>
         {todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} onToggle={toggleTodo} />
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onToggle={toggleTodo}
+            onDelete={deleteTodo}
+          />
         ))}
       </ul>
     </div>

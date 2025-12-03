@@ -1,4 +1,4 @@
-export default function TodoItem({ todo, onToggle }) {
+export default function TodoItem({ todo, onToggle, onDelete }) {
   return (
     <li
       style={{
@@ -8,21 +8,30 @@ export default function TodoItem({ todo, onToggle }) {
         marginBottom: "8px",
       }}
     >
-      {/* Checkbox para marcar como completado/pendiente */}
+      {/* Checkbox */}
       <input
         type="checkbox"
         checked={todo.completed}
         onChange={() => onToggle(todo.id)}
       />
 
-      {/* Texto con tachado si está completado */}
+      {/* Texto */}
       <span
         style={{
+          flex: 1,
           textDecoration: todo.completed ? "line-through" : "none",
         }}
       >
         {todo.title}
       </span>
+
+      {/* Botón para eliminar */}
+      <button
+        onClick={() => onDelete(todo.id)}
+        style={{ backgroundColor: "red", color: "white", border: "none", padding: "4px 8px" }}
+      >
+        Eliminar
+      </button>
     </li>
   );
 }
