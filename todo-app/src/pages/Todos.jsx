@@ -11,31 +11,39 @@ export default function Todos() {
       .then((data) => setTodos(data));
   }, []);
 
-  // 👉 Función para crear un nuevo todo
+  // Crear nuevo todo
   const handleCreate = (title) => {
     const newTodo = {
-      id: Date.now(), // id único
+      id: Date.now(),
       title,
       completed: false,
     };
 
-    // Agregar el nuevo todo al inicio del arreglo
     setTodos([newTodo, ...todos]);
+  };
+
+  // 👉 Función para marcar completado o pendiente
+  const toggleTodo = (id) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id
+          ? { ...todo, completed: !todo.completed }
+          : todo
+      )
+    );
   };
 
   return (
     <div>
       <h1>Lista de Todos</h1>
 
-      {/* Formulario para agregar todos */}
       <TodoForm onCreate={handleCreate} />
 
       <ul>
         {todos.map((todo) => (
-          <TodoItem key={todo.id} todo={todo} />
+          <TodoItem key={todo.id} todo={todo} onToggle={toggleTodo} />
         ))}
       </ul>
     </div>
   );
-
 }
