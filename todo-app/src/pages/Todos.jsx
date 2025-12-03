@@ -1,45 +1,45 @@
 import { useEffect, useState } from "react";
 import TodoItem from "../components/TodoItem";
 import TodoForm from "../components/TodoForm";
+import Loader from "../components/Loader";
 import { fetchTodos } from "../api/todosApi";
+import Filters from "../components/Filters"; // ⭐ Importante
 
 
 export default function Todos() {
+
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
+  // ⭐ 1. Cargar todos desde la API
   useEffect(() => {
-    const loadData = async () => {
+    async function loadData() {
       try {
-        setLoading(true);
-        setError(null);
-
-        const data = await fetchTodos(10);
+        const data = await fetchTodos();
         setTodos(data);
-
       } catch (err) {
-        console.error(err);
-        setError("Ocurrió un error al cargar las tareas.");
+        setError("Error al cargar los todos");
       } finally {
         setLoading(false);
       }
-    };
+    }
 
     loadData();
   }, []);
 
-  // Crear nuevo todo
+  // ⭐ 2. Crear nuevo todo
   const handleCreate = (title) => {
     const newTodo = {
-      id: Date.now(),
+      id: crypto.randomUUID(),
       title,
       completed: false,
     };
+
     setTodos([newTodo, ...todos]);
   };
 
-  // Toggle
+  // ⭐ 3. Alternar completado/pendiente
   const toggleTodo = (id) => {
     setTodos(
       todos.map((todo) =>
@@ -48,7 +48,7 @@ export default function Todos() {
     );
   };
 
-  // Eliminar
+  // ⭐ 4. Eliminar todo
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
@@ -57,11 +57,17 @@ export default function Todos() {
     <div>
       <h1>Lista de Todos</h1>
 
+      {/* ⭐ FILTROS PLACEHOLDER */}
+      <Filters />
+
+      {/* ⭐ FORMULARIO NUEVO TODO */}
       <TodoForm onCreate={handleCreate} />
 
+      {/* ⭐ Mensajes */}
       {error && <p style={{ color: "red" }}>{error}</p>}
-      {loading && <p>Cargando tareas...</p>}
+      {loading && <Loader />}
 
+      {/* ⭐ Lista de todos */}
       {!loading && !error && (
         <ul>
           {todos.map((todo) => (
