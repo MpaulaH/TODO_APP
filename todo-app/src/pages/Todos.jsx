@@ -4,11 +4,21 @@ import TodoForm from "../components/TodoForm";
 
 export default function Todos() {
   const [todos, setTodos] = useState([]);
+  const [loading, setLoading] = useState(true); // 🌟 Estado de carga
 
   useEffect(() => {
+    setLoading(true); // activa el estado de carga
+
     fetch("https://jsonplaceholder.typicode.com/todos?_limit=10")
       .then((res) => res.json())
-      .then((data) => setTodos(data));
+      .then((data) => {
+        setTodos(data);
+        setLoading(false); // desactiva carga cuando llegan los datos
+      })
+      .catch((error) => {
+        console.error("Error cargando los TODOs:", error);
+        setLoading(false); // incluso en error se detiene el loading
+      });
   }, []);
 
   // Crear nuevo todo
@@ -33,7 +43,7 @@ export default function Todos() {
     );
   };
 
-  // 👉 ELIMINAR TODO
+  // Eliminar todo
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
@@ -44,16 +54,22 @@ export default function Todos() {
 
       <TodoForm onCreate={handleCreate} />
 
-      <ul>
-        {todos.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onToggle={toggleTodo}
-            onDelete={deleteTodo}
-          />
-        ))}
-      </ul>
+      {/* 🌟 Mensaje mientras se cargan los datos */}
+      {loading && <p>Cargando tareas...</p>}
+
+      {/* 🌟 Solo muestra la lista cuando loading es false */}
+      {!loading && (
+        <ul>
+          {todos.map((todo) => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              onToggle={toggleTodo}
+              onDelete={deleteTodo}
+            />
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
